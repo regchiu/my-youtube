@@ -58,6 +58,7 @@ export default {
   left: 0;
   background-color: #212121;
   overflow-x: hidden;
+  z-index: 1;
   a {
     display: flex;
     flex-direction: column;
@@ -89,6 +90,7 @@ export default {
   background-color: #212121;
   overflow-x: hidden;
   padding: 10px 0;
+  z-index: 1;
   a {
     display: flex;
     flex-direction: row;
@@ -132,7 +134,7 @@ export default {
     position: fixed;
     bottom: 0;
     width: 100%;
-    z-index: 2;
+    z-index: 1;
     height: 48px;
     border-top: 1px solid #88888866;
     background: #111111;
