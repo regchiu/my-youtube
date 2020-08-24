@@ -107,7 +107,6 @@ export default {
     }
     .description {
       font-size: 13px;
-      line-height: 19px;
       color: #aaaaaa;
       overflow: hidden;
       position: relative;

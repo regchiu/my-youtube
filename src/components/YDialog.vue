@@ -30,7 +30,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .overlay {
   display: block;
   height: 100%;
@@ -70,30 +70,30 @@ export default {
       color: #eeeeee;
     }
   }
-}
-.overlay__account {
-  margin: 12px 0;
-  display: flex;
-  flex-direction: row;
-  .account-photo {
-    width: 72px;
-    height: 72px;
-    padding: 12px;
-    .avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
+  .overlay__account {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: row;
+    .account-photo {
+      width: 72px;
+      height: 72px;
+      padding: 12px;
+      .avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+      }
     }
-  }
-  .account-information {
-    padding: 8px 0;
-    .name,
-    .email {
-      font-size: 16px;
-      color: #eeeeee;
-    }
-    .email {
-      margin-top: 5px;
+    .account-information {
+      padding: 8px 0;
+      .name,
+      .email {
+        font-size: 16px;
+        color: #eeeeee;
+      }
+      .email {
+        margin-top: 5px;
+      }
     }
   }
 }

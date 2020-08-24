@@ -1,35 +1,37 @@
 <template>
-  <nav class="navbar">
-    <ul class="start">
-      <li>
-        <a class="menu" @click="setExpand">
-          <img :src="require('@/assets/menu.svg')" width="24" height="24" />
-        </a>
-      </li>
-      <li>
-        <router-link class="logo" :to="{ name: 'Home' }">
-          <img :src="require('@/assets/YouTube_logo.svg')" />
-        </router-link>
-        <span>TW</span>
-      </li>
-    </ul>
-    <div class="center">
-      <div class="search-box">
-        <input class="search-input" type="text" placeholder="搜尋" />
-        <button class="search-btn">
-          <i class="search-icon"></i>
-        </button>
+  <div>
+    <nav class="navbar">
+      <ul class="start">
+        <li>
+          <a class="menu" @click="setExpand">
+            <img :src="require('@/assets/menu.svg')" width="24" height="24" />
+          </a>
+        </li>
+        <li>
+          <router-link class="logo" :to="{ name: 'Home' }">
+            <img :src="require('@/assets/YouTube_logo.svg')" />
+          </router-link>
+          <span>TW</span>
+        </li>
+      </ul>
+      <div class="center">
+        <div class="search-box">
+          <input class="search-input" type="text" placeholder="搜尋" />
+          <button class="search-btn">
+            <i class="search-icon"></i>
+          </button>
+        </div>
       </div>
-    </div>
-    <ul class="end">
-      <li>
-        <button class="avatar" @click="showDialog">
-          <img :src="require('@/assets/avatar.jpg')" alt="avatar" />
-        </button>
-      </li>
-    </ul>
-    <y-dialog :show="show" @close="closeDialog"/>
-  </nav>
+      <ul class="end">
+        <li>
+          <button class="avatar" @click="showDialog">
+            <img :src="require('@/assets/avatar.jpg')" alt="avatar" />
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <y-dialog :show="show" @close="closeDialog" />
+  </div>
 </template>
 <script>
 import { mapMutations } from 'vuex'
