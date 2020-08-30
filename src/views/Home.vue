@@ -45,7 +45,7 @@ export default {
       videos: [],
       prevPageToken: [],
       nextPageToken: [null],
-      total: 100,
+      total: 0,
       perPage: 12
     }
   },
@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     length () {
-      return Math.ceil(this.total / this.perPage)
+      return Math.ceil(this.total / this.perPage) === 0 ? 1 : Math.ceil(this.total / this.perPage)
     }
   },
   methods: {
@@ -71,6 +71,7 @@ export default {
             ...payload
           }
         })
+        this.total = response.data.pageInfo.totalResults
         if (isInit) {
           this.nextPageToken.push(response.data.nextPageToken || null)
           this.prevPageToken.push(response.data.prevPageToken || null)
