@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from '@/App.vue'
+import infiniteScroll from 'vue-infinite-scroll'
 import router from '@/router'
 import store from '@/store'
 import { youtubeApi } from '@/plugins/axios'
@@ -16,6 +17,8 @@ Vue.filter('formatDuration', formatDuration)
 
 Vue.component('y-container', YContainer)
 Vue.component('y-loader', YLoader)
+
+Vue.use(infiniteScroll)
 
 new Vue({
   router,

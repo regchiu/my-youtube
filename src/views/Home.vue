@@ -1,8 +1,12 @@
 <template>
   <y-container class="home">
     <span class="title">推薦影片</span>
-    <y-loader v-if="loading" />
-    <div v-else class="videos-container">
+    <div
+      class="videos-container"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="10"
+    >
       <y-video-card
         style="margin-bottom: 20px;"
         v-for="video in videos"
@@ -17,49 +21,27 @@
         @click="watchVideo(video)"
       />
     </div>
-    <y-pagination
-      v-if="!loading"
-      :length="length"
-      :total-visible="3"
-      @input="changePage"
-      @first="firstPage"
-      @last="lastPage"
-      @next="nextPage"
-      @previous="previousPage"
-    />
   </y-container>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 import YVideoCard from '@/components/YVideoCard.vue'
-import YPagination from '@/components/YPagination.vue'
 export default {
   components: {
-    YVideoCard,
-    YPagination
+    YVideoCard
   },
   data () {
     return {
-      loading: true,
       videos: [],
-      prevPageToken: [],
-      nextPageToken: [null],
-      total: 0,
-      perPage: 12
-    }
-  },
-  created () {
-    this.init()
-  },
-  computed: {
-    length () {
-      return Math.ceil(this.total / this.perPage) === 0 ? 1 : Math.ceil(this.total / this.perPage)
+      nextPageToken: null,
+      busy: false,
+      isEnd: false
     }
   },
   methods: {
     ...mapMutations(['addFavorites', 'removeFavorites', 'setVideo']),
-    async fetchVideos (payload, setVideos = true, isInit = false) {
+    async fetchVideos (payload) {
       try {
         const response = await this.$youtubeApi.get('/videos', {
           params: {
@@ -68,97 +50,40 @@ export default {
             regionCode: 'TW',
             videoCategoryId: 10,
             key: process.env.VUE_APP_YOUTUBE_API_KEY,
+            maxResults: 12,
             ...payload
           }
         })
-        this.total = response.data.pageInfo.totalResults
-        if (isInit) {
-          this.nextPageToken.push(response.data.nextPageToken || null)
-          this.prevPageToken.push(response.data.prevPageToken || null)
+        if (!response.data.nextPageToken) {
+          this.isEnd = true
+        } else {
+          this.nextPageToken = response.data.nextPageToken
         }
-        if (setVideos) {
-          this.videos = response.data.items
-        }
+        this.videos.push(...response.data.items)
       } catch (error) {
         console.log(error)
       }
     },
-    async init () {
-      if (this.total % this.perPage === 0) {
-        for (let i = 0; i < this.length; i++) {
-          await this.fetchVideos(
-            {
-              maxResults: this.perPage,
-              pageToken: this.nextPageToken[i]
-            },
-            i === 0,
-            true
-          )
-        }
-      } else {
-        for (let i = 0; i < this.length; i++) {
-          await this.fetchVideos(
-            {
-              maxResults:
-                i === this.length - 1
-                  ? this.total % this.perPage
-                  : this.perPage,
-              pageToken: this.nextPageToken[i]
-            },
-            i === 0,
-            true
-          )
-        }
+    async loadMore () {
+      if (this.isEnd) {
+        return
       }
-      this.loading = false
-    },
-    changePage (value) {
-      if (value < this.length) {
-        this.fetchVideos({
-          maxResults: this.perPage,
-          pageToken: this.nextPageToken[value - 1]
+      this.busy = true
+      try {
+        await this.fetchVideos({
+          pageToken: this.nextPageToken
         })
-      } else {
-        this.fetchVideos({
-          maxResults: this.total % this.perPage,
-          pageToken: this.nextPageToken[this.length - 1]
-        })
-      }
-    },
-    firstPage (value) {
-      this.fetchVideos({
-        maxResults: this.perPage
-      })
-    },
-    lastPage (value) {
-      this.fetchVideos({
-        maxResults: this.total % this.perPage,
-        pageToken: this.nextPageToken[this.length - 1]
-      })
-    },
-    previousPage (value) {
-      if (value > 0) {
-        this.fetchVideos({
-          maxResults: this.perPage,
-          pageToken: this.prevPageToken[value]
-        })
-      }
-    },
-    nextPage (value) {
-      if (value < this.length) {
-        this.fetchVideos({
-          maxResults: this.perPage,
-          pageToken: this.nextPageToken[value - 1]
-        })
-      } else {
-        this.fetchVideos({
-          maxResults: this.total % this.perPage,
-          pageToken: this.nextPageToken[this.length - 1]
-        })
+        this.busy = false
+      } catch (error) {
+        this.busy = false
+        console.log(error)
       }
     },
     watchVideo (video) {
-      this.setVideo({ title: video.snippet.title, description: video.snippet.description })
+      this.setVideo({
+        title: video.snippet.title,
+        description: video.snippet.description
+      })
       this.$router.push({ name: 'Video' })
     }
   }
@@ -179,10 +104,6 @@ export default {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
-  }
-  .pagination {
-    margin-top: 10px;
-    align-self: center;
   }
 }
 @media (max-width: 600px) {
