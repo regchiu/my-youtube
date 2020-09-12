@@ -12,7 +12,11 @@
         :class="[$route.name === 'Favorite' ? 'active' : '']"
         :to="{ name: 'Favorite' }"
       >
-        <img :src="require('@/assets/favorite-white.svg')" width="24" height="24" />
+        <img
+          :src="require('@/assets/favorite-white.svg')"
+          width="24"
+          height="24"
+        />
         <span>收藏</span>
       </router-link>
     </div>
@@ -28,7 +32,11 @@
         :class="[$route.name === 'Favorite' ? 'active' : '']"
         :to="{ name: 'Favorite' }"
       >
-        <img :src="require('@/assets/favorite-white.svg')" width="24" height="24" />
+        <img
+          :src="require('@/assets/favorite-white.svg')"
+          width="24"
+          height="24"
+        />
         <span>收藏</span>
       </router-link>
     </div>
@@ -145,12 +153,11 @@ export default {
       align-items: center;
       color: #ffffff;
       text-decoration: none;
-      padding: 5px 0;
+      padding: 4px 0;
       opacity: 0.7;
       width: 100%;
       span {
-        font-size: 11px;
-        padding: 2px 0;
+        font-size: 12px;
       }
     }
     a.active {
