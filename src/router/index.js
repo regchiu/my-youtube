@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
-import VideoRequired from '@/utils/VideoRequired'
+import videoRequired from '@/utils/videoRequired'
 
 Vue.use(VueRouter)
 
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/video',
     name: 'Video',
-    beforeEnter: VideoRequired,
+    beforeEnter: videoRequired,
     component: () => import('@/views/Video.vue')
   }
 ]
