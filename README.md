@@ -8,11 +8,11 @@ Simple HTML/CSS/Vue.js/YouTube Data API v3/video.js practice.
 
 ### Home
 
-![home](https://raw.githubusercontent.com/regchiu/resources/master/my-youtube/my-youtube-home.png?token=AGCBODFT6SB76PN6ENWNSQK7HPXGY)
+![home](preview/my_youtube_home.png)
 
 ### Video
 
-![video](https://raw.githubusercontent.com/regchiu/resources/master/my-youtube/my-youtube-video.png?token=AGCBODDQKQN7AF5BB5Q2MBK7HPXIK)
+![video](preview/my_youtube_video.png)
 
 ## Environment variable
 
